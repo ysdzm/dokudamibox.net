@@ -1,9 +1,10 @@
 ---
 import type { HTMLTag, Polymorphic } from "astro/types";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "./FormattedDate.astro";
 
 import { Image } from "astro:assets";
+
+import FormattedDate from "./FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = {
 	post: CollectionEntry<"post">;
@@ -19,22 +20,24 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 <!-- <FormattedDate class="min-w-[120px] text-gray-600 dark:text-gray-400" date={postDate} /> -->
 <Tag>
-    <a data-astro-prefetch href={`/posts/${post.slug}/`} class="block px-4">
-        <div class="relative border border-gray-200 dark:border-gray-700 h-[80px]">
+    <a class="block px-4 group" data-astro-prefetch href={`/posts/${post.slug}/`}>
+        <div class="relative border border-gray-200 dark:border-gray-700 h-[80px] group-hover:border-green-500 transition-colors duration-300 ease-in-out group-hover:bg-gray-50 dark:group-hover:bg-gray-700">
             {/* 左側 */}
             <div class="float-left w-2/3 pl-4 h-full">
                 <div>
                     {post.data.draft && <span class="text-red-500">(Draft) </span>}
-                    <h2 class="text-sm">{post.data.title}</h2>
-                    <p class="text-xs">
+                    <h2 class="text-sm group-hover:text-green-500 transition-colors duration-300 ease-in-out">
+                        {post.data.title}
+                    </h2>
+                    <p class="text-xs group-hover:text-green-500 transition-colors duration-300 ease-in-out">
                         <FormattedDate date={post.data.publishDate} dateTimeOptions={dateTimeOptions} />
                     </p>
                 </div>
             </div>
-        
+
             {/* 右側 */}
             {post.data.coverImage && (
-                <div class="float-right w-1/3 h-full overflow-hidden relative">
+                <div class="float-right w-1/3 h-full overflow-hidden relative group-hover:scale-105 transition-transform duration-300 ease-in-out">
                     <div class="h-full">
                         <Image
                             alt={post.data.coverImage.alt}
@@ -46,18 +49,18 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
                     </div>
                     {/* SVG 部分を右側の画像上に重ねる */}
                     <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
+                        class="absolute top-1/2 right-2 -translate-y-1/2 z-10 w-6 h-6 stroke-2 fill-none stroke-current group-hover:stroke-green-500 transition-colors duration-300 ease-in-out" 
                         viewBox="0 0 24 24"
-                        class="absolute top-1/2 right-2 -translate-y-1/2 z-10 w-6 h-6 stroke-2 fill-none stroke-current invert">
+                        xmlns="http://www.w3.org/2000/svg">
                         <line 
+                            class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" 
                             x1="5" 
-                            y1="12" 
                             x2="19" 
-                            y2="12" 
-                            class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
+                            y1="12" 
+                            y2="12" />
                         <polyline 
-                            points="12 5 19 12 12 19" 
-                            class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
+                            class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" 
+                            points="12 5 19 12 12 19" />
                     </svg>
                 </div>
             )}
