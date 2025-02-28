@@ -1,7 +1,7 @@
 ---
 title: "おえかきBlendShape"
 description: "This post is an example of how to add a cover/hero image"
-publishDate: "2024/01/17"
+publishDate: "2023/12/20"
 coverImage:
   src: "./cover.png"
   alt: "cover"
