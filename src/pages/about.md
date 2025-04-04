@@ -20,6 +20,14 @@ publishDate: "2025/01/20"
 - [dokudami Annict](https://annict.com/@dokudami/watching)
 - [ドクダミ日記 はてなブログ](https://dokudamichang.hatenablog.com/archive)
 
+## Qualifications
+
+- 応用情報技術者 (2024/4)
+- 色彩検定2級 (2022/11)
+- VR技術者試験アプリケーションコース (2021/12)
+- VR技術者試験セオリーコース (2021/7)
+- ITパスポート (2020/6)
+
 ## 生存報告
 
 <div style="display: flex; justify-content: space-between; gap: 20px; align-items: flex-start;">
