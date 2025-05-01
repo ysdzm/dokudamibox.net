@@ -40,6 +40,7 @@ const formatDate = (dateString: string) => {
 	return `${yyyy}/${mm}/${dd}`;
 };
 
+
 const markup = (title: string, pubDate: string, coverImageSrc: string, coverImageAlt: string) =>
 	html`<div
 		tw="flex flex-col w-full h-full bg-white text-[#1d1f21]"
