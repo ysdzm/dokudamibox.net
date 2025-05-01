@@ -40,15 +40,13 @@ const formatDate = (dateString: string) => {
 	return `${yyyy}/${mm}/${dd}`;
 };
 
-
-const markup = (title: string, pubDate: string, coverImageSrc: string, coverImageAlt: string) =>
+const markup = (title: string, pubDate: string) =>
 	html`<div
 		tw="flex flex-col w-full h-full bg-white text-[#1d1f21]"
 		style="border: 32px solid #2bbc89; font-family: 'Noto Sans JP', sans-serif;"
 	>
 		<div tw="flex flex-col flex-1 w-full p-10 justify-center ">
 			<h1 tw="text-6xl font-bold leading-snug text-black text-center mx-auto mt-40">${title}</h1>
-			<img src="${coverImageSrc}" alt="${coverImageAlt}"/>
 			<h3 tw="text-3xl mb-6 text-center mx-auto">${formatDate(pubDate)}</h3>
 		</div>
 		<div tw="flex items-center justify-between w-full p-10 text-xl">
@@ -67,22 +65,14 @@ const markup = (title: string, pubDate: string, coverImageSrc: string, coverImag
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-import fs from "fs/promises";
-
 export async function GET(context: APIContext) {
-	const { pubDate, title, coverImageSrc, coverImageAlt } = context.props as Props;
-	
-	// coverImage を base64 に変換して Data URI を作成
-	const imageBuffer = await fs.readFile(coverImageSrc.fsPath);
-	const base64 = imageBuffer.toString("base64");
-	const mimeType = `image/${coverImageSrc.format}`;
-	const imageDataUrl = `data:${mimeType};base64,${base64}`;
+	const { pubDate, title } = context.props as Props;
 
 	const postDate = getFormattedDate(pubDate, {
 		month: "long",
 		weekday: "long",
 	});
-	const svg = await satori(markup(title, postDate, imageDataUrl, coverImageAlt), ogOptions);
+	const svg = await satori(markup(title, postDate), ogOptions);
 	const png = new Resvg(svg).render().asPng();
 	return new Response(png, {
 		headers: {
@@ -101,8 +91,6 @@ export async function getStaticPaths() {
 			props: {
 				pubDate: post.data.updatedDate ?? post.data.publishDate,
 				title: post.data.title,
-				coverImageSrc: post.data.coverImage?.src ?? "", // 画像のsrc
-				coverImageAlt: post.data.coverImage?.alt ?? "", // 画像のalt
 			},
 		}));
 }
