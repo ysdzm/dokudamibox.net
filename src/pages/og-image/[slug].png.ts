@@ -70,12 +70,23 @@ import fs from "fs/promises";
 
 export async function GET(context: APIContext) {
 	const { pubDate, title, coverImageSrc, coverImageAlt } = context.props as Props;
-	
-	// coverImage を base64 に変換して Data URI を作成
-	const imageBuffer = await fs.readFile(coverImageSrc.fsPath);
-	const base64 = imageBuffer.toString("base64");
-	const mimeType = `image/${coverImageSrc.format}`;
-	const imageDataUrl = `data:${mimeType};base64,${base64}`;
+
+	let imageDataUrl: string;
+
+	if (typeof coverImageSrc === "object" && "fsPath" in coverImageSrc && "format" in coverImageSrc) {
+		// ローカルファイルとして処理
+		const fsPath = (coverImageSrc.fsPath as string);
+		const format = (coverImageSrc.format as string);
+		const imageBuffer = await fs.readFile(fsPath); // ← fs.readFile() に string を渡す
+		const base64 = imageBuffer.toString("base64");
+		const mimeType = `image/${format}`;
+		imageDataUrl = `data:${mimeType};base64,${base64}`;
+	} else if (typeof coverImageSrc === "string" && coverImageSrc.startsWith("http")) {
+		// 外部URLの場合そのまま使う
+		imageDataUrl = coverImageSrc;
+	} else {
+		throw new Error("Invalid coverImageSrc: unsupported format or missing fsPath");
+	}
 
 	const postDate = getFormattedDate(pubDate, {
 		month: "long",
@@ -83,6 +94,7 @@ export async function GET(context: APIContext) {
 	});
 	const svg = await satori(markup(title, postDate, imageDataUrl, coverImageAlt), ogOptions);
 	const png = new Resvg(svg).render().asPng();
+
 	return new Response(png, {
 		headers: {
 			"Cache-Control": "public, max-age=31536000, immutable",
@@ -90,6 +102,7 @@ export async function GET(context: APIContext) {
 		},
 	});
 }
+
 
 export async function getStaticPaths() {
 	const posts = await getAllPosts();
