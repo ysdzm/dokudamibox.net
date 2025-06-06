@@ -9,7 +9,7 @@ import { getAllPosts, getUniqueTags, groupPostsByYear, sortMDByDate } from "@/da
 import PageLayout from "@/layouts/Base.astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_POSTS_PER_PAGE = 10;
+	const MAX_POSTS_PER_PAGE = 50;
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
 	const uniqueTags = getUniqueTags(allPosts);
@@ -59,7 +59,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		prose-headings:before:text-accent 
 		prose-headings:before:content-['#'] 
 		prose-th:before:content-none">
-	<h1 class="title ">Posts（WIP）</h1>
+	<h1 class="title ">Posts</h1>
 	<div>
 		<section aria-label="Blog post list">
 			{
