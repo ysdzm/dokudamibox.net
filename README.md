@@ -1,6 +1,6 @@
-# [dokudamibox.net](https://dokudamibox.net)
+# [blog.dokudamibox.net](https://blog.dokudamibox.net)
 
-- ![Deployment Status](https://github.com/ysdzm/dokudamibox.net/actions/workflows/deploy.yml/badge.svg)
+- ![Deployment Status](https://github.com/ysdzm/blog.dokudamibox.net/actions/workflows/deploy.yml/badge.svg)
 
 This repository contains the source code for a static website built with [Astro](https://astro.build/).
 
@@ -13,9 +13,9 @@ This repository contains the source code for a static website built with [Astro]
 ## Usage
 
 ```bash
-$ git clone https://github.com/ysdzm/dokudamibox.net.git
+$ git clone https://github.com/ysdzm/blog.dokudamibox.net.git
 
-$ cd dokudamibox.net
+$ cd blog.dokudamibox.net
 
 $ npm install
 
@@ -29,7 +29,7 @@ This project is automatically deployed using GitHub Actions.
 ### Automatic Deployment
 
 - Pushing changes to the `main` branch triggers the deployment workflow.  
-- You can monitor deployment progress and logs in the [Actions tab](https://github.com/ysdzm/dokudamibox.net/actions).  
+- You can monitor deployment progress and logs in the [Actions tab](https://github.com/ysdzm/blog.dokudamibox.net/actions).  
 
 ## Development Environment (Optional: DevContainer)
 

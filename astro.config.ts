@@ -43,7 +43,7 @@ export default defineConfig({
 		},
 	},
 	prefetch: true,
-	site: "https://dokudamibox.net",
+	site: "https://blog.dokudamibox.net",
 	vite: {
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
