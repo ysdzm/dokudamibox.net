@@ -5,78 +5,126 @@ import Search from "../Search.astro";
 import ThemeToggle from "../ThemeToggle.astro";
 
 const url = new URL(Astro.request.url);
+const pathname = url.pathname;
+
+// 末尾の / を消して、空なら / にする
+const normalizePath = (p: string) => {
+	if (!p) return "/";
+	// 先頭に / がなければ付ける
+	if (!p.startsWith("/")) p = "/" + p;
+	// 末尾の / を全部取る（ただし "/" は残す）
+	p = p.replace(/\/+$/, "");
+	return p === "" ? "/" : p;
+};
+
+const currentPath = normalizePath(pathname);
+
+const isActive = (path: string) => {
+	const base = normalizePath(path);
+
+	// Home は完全一致のみ
+	if (base === "/") return currentPath === "/";
+
+	// /posts → /posts, /posts/2025-11-02, /posts/2025/11/02/... を全部 true
+	return currentPath === base || currentPath.startsWith(base + "/");
+};
+
+const navLinkBaseClass =
+	"px-4 py-4 underline-offset-2 sm:py-0 sm:hover:underline";
 ---
 
-<header class="group relative mb-5 flex items-center sm:ps-[4.5rem]" id="main-header">
+<header
+	id="main-header"
+	class="group relative mb-5 flex items-center sm:ps-[4.5rem]"
+>
 	<div class="flex sm:flex-col">
 		<a
-			aria-current={url.pathname === "/" ? "page" : false}
+			aria-current={isActive("/") ? "page" : undefined}
 			class="inline-flex items-center hover:filter-none sm:relative sm:inline-block"
 			href="/"
 		>
-			<img alt="dokudami-icon" class="sm:absolute sm:start-[-4.5rem] w-10 sm:w-12" src="/dokudami.png">
-			<div class="text-xl font-bold sm:text-lg flex">
+			<img
+				alt="dokudami-icon"
+				class="w-10 sm:absolute sm:start-[-4.5rem] sm:w-12"
+				src="/dokudami.png"
+			/>
+			<div class="flex text-xl font-bold sm:text-lg">
 				<span class="hidden sm:block">blog.dokudamibox.net</span>
-				<span class="sm:hidden ml-2">blog.dkdmbx.net</span>
-			  </div>
+				<span class="ml-2 sm:hidden">blog.dkdmbx.net</span>
+			</div>
 		</a>
+
 		<nav
+			id="navigation-menu"
 			aria-label="Main menu"
 			class="absolute -inset-x-4 top-14 hidden flex-col items-end gap-y-4 rounded-md bg-bgColor/[.85] py-4 text-accent shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:items-center sm:divide-x sm:divide-dashed sm:divide-accent sm:rounded-none sm:bg-transparent sm:py-0 sm:shadow-none sm:backdrop-blur-none"
-			id="navigation-menu"
 		>
 			{
-				menuLinks.map((link) => (
-					<a
-						aria-current={url.pathname === link.path ? "page" : false}
-						class="px-4 py-4 underline-offset-2 sm:py-0 sm:hover:underline"
-						data-astro-prefetch
-						href={link.path}
-					>
-						{link.title}
-					</a>
-				))
+				menuLinks.map((link) => {
+					const active = isActive(link.path);
+					const navClass = `${navLinkBaseClass} ${
+						active ? "font-semibold underline" : ""
+					}`;
+					return (
+						<a
+							aria-current={active ? "page" : undefined}
+							class={navClass}
+							data-astro-prefetch
+							href={link.path}
+						>
+							{link.title}
+						</a>
+					);
+				})
 			}
 		</nav>
 	</div>
+
 	<Search />
 	<ThemeToggle />
+
 	<mobile-button>
 		<button
+			id="toggle-navigation-menu"
+			type="button"
 			aria-expanded="false"
 			aria-haspopup="menu"
 			aria-label="Open main menu"
 			class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
-			id="toggle-navigation-menu"
-			type="button"
 		>
 			<svg
+				id="line-svg"
 				aria-hidden="true"
-				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
 				fill="none"
 				focusable="false"
-				id="line-svg"
 				stroke="currentColor"
 				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
+				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
 			>
-				<path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round"
-				></path>
+				<path
+					d="M3.75 9h16.5m-16.5 6.75h16.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
 			</svg>
 			<svg
+				id="cross-svg"
 				aria-hidden="true"
-				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 text-accent opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
-				class="text-accent"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
 				fill="none"
 				focusable="false"
-				id="cross-svg"
 				stroke="currentColor"
 				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
+				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 text-accent opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
 			>
-				<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path
+					d="M6 18L18 6M6 6l12 12"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
 			</svg>
 		</button>
 	</mobile-button>
@@ -86,23 +134,32 @@ const url = new URL(Astro.request.url);
 	import { toggleClass } from "@/utils";
 
 	class MobileNavBtn extends HTMLElement {
-		private headerEl: HTMLElement;
-		private menuOpen: boolean;
-		private mobileButtonEl: HTMLButtonElement;
-
-		toggleMobileMenu = () => {
-			toggleClass(this.headerEl, "menu-open");
-			this.menuOpen = !this.menuOpen;
-			this.mobileButtonEl.setAttribute("aria-expanded", this.menuOpen.toString());
-		};
+		headerEl;
+		menuOpen = false;
+		mobileButtonEl;
 
 		constructor() {
 			super();
-			this.headerEl = document.getElementById("main-header")!;
-			this.mobileButtonEl = this.querySelector("button") as HTMLButtonElement;
-			this.menuOpen = false;
 
-			this.mobileButtonEl.addEventListener("click", this.toggleMobileMenu);
+			this.headerEl = document.getElementById("main-header");
+			this.mobileButtonEl = this.querySelector("button");
+
+			this.toggleMobileMenu = this.toggleMobileMenu.bind(this);
+
+			if (this.mobileButtonEl) {
+				this.mobileButtonEl.addEventListener("click", this.toggleMobileMenu);
+			}
+		}
+
+		toggleMobileMenu() {
+			if (!this.headerEl || !this.mobileButtonEl) return;
+
+			toggleClass(this.headerEl, "menu-open");
+			this.menuOpen = !this.menuOpen;
+			this.mobileButtonEl.setAttribute(
+				"aria-expanded",
+				String(this.menuOpen),
+			);
 		}
 	}
 
