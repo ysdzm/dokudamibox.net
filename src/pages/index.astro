@@ -12,58 +12,47 @@ const allPosts = await getAllPosts();
 const allPostsByDate = allPosts
 	.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
 	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
-
 ---
 
 <PageLayout meta={{ title: "Home" }}>
-	<div class="
-		prose-headings:pl-4 
-		prose-sm
-		prose-cactus
-		prose-headings:font-semibold
-		prose-headings:text-accent-2
-		prose-headings:before:absolute 
-		prose-headings:before:-ms-4 
-		prose-headings:before:text-accent 
-		prose-headings:before:content-['#'] 
-		prose-th:before:content-none">
-	<div style="display: flex; justify-content: center; align-items: center; height: 30vh;">
-		<img class="w-[70%] sm:w-auto" src="https://count.getloli.com/@blog.dokudamibox.net?name=blog.dokudamibox.net&theme=green&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=0" alt="Image" />
-	</div>
-
-    {/* About This Blog セクション */}
-    <section aria-label="About this blog" className="mt-16">
-      <div className="flex flex-wrap gap-y-2 items-center justify-between">
-        <h2 className="font-semibold text-black dark:text-white">
-          About This Blog
-        </h2>
-								<ul>
-										<li>
-								<a href="/about" class="underline">dokudami</a> の思い出記録。
-</li>      
-</ul>
-    </section>
-
-	<!-- その時が来たらコメントアウトを外す -->
-	<section aria-label="Blog post list" class="mt-16">
-		<div class="flex flex-wrap gap-y-2 items-center justify-between">
-			<h2 class="font-semibold text-black dark:text-white">
-			  Latest Posts
-			</h2>
-			<a href="/posts" class="underline">
-				See all posts
-			</a>
+	<div
+		class="prose-sm prose-cactus prose-headings:pl-4 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+	>
+		<div style="display: flex; justify-content: center; align-items: center; height: 30vh;">
+			<img
+				class="w-[70%] sm:w-auto"
+				src="https://count.getloli.com/@blog.dokudamibox.net?name=blog.dokudamibox.net&theme=green&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=0"
+				alt="Image"
+			/>
 		</div>
-		<div class="space-y-4" role="list">
-			{
-				allPostsByDate
-				.map((p) => (
-					<div class= "not-prose">
-						<ArrowCard post={p} />
-					</div>
-				))
-			}
-		</div>
-	</section>
-</div>
-</PageLayout>
+
+		{/* About This Blog セクション */}
+		<section aria-label="About this blog" className="mt-16">
+			<div className="flex flex-wrap items-center justify-between gap-y-2">
+				<h2 className="font-semibold text-black dark:text-white">About This Blog</h2>
+				<ul>
+					<li>
+						<a href="/about" class="underline">dokudami</a> の思い出記録
+					</li>
+				</ul>
+			</div>
+
+			<!-- その時が来たらコメントアウトを外す -->
+			<section aria-label="Blog post list" class="mt-16">
+				<div class="flex flex-wrap items-center justify-between gap-y-2">
+					<h2 class="font-semibold text-black dark:text-white">Latest Posts</h2>
+					<a href="/posts" class="underline"> See all posts </a>
+				</div>
+				<div class="space-y-4" role="list">
+					{
+						allPostsByDate.map((p) => (
+							<div class="not-prose">
+								<ArrowCard post={p} />
+							</div>
+						))
+					}
+				</div>
+			</section>
+		</section>
+	</div></PageLayout
+>
