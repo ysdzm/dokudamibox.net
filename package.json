@@ -1,5 +1,5 @@
 {
-	"name": "blog.dokudamibox.net",
+	"name": "dokudamibox.net",
 	"version": "4.5.0",
 	"scripts": {
 		"dev": "astro dev",
