@@ -69,18 +69,18 @@ function getHostname(url: string) {
 }
 
 function getTld(url: string) {
-  const parts = getHostname(url).split(".");
-  return parts[parts.length - 1] ?? "";
+  return getHostname(url).split(".").at(-1) ?? "";
+}
+
+function getFaviconUrl(url: string) {
+  return `https://www.google.com/s2/favicons?domain=${getHostname(url)}&sz=32`;
 }
 
 const sortedLinks = [...new Set(links)].sort((a, b) => {
   const tldA = getTld(a);
   const tldB = getTld(b);
 
-  if (tldA !== tldB) {
-    return tldA.localeCompare(tldB);
-  }
-
+  if (tldA !== tldB) return tldA.localeCompare(tldB);
   return getHostname(a).localeCompare(getHostname(b));
 });
 ---
@@ -94,7 +94,14 @@ const sortedLinks = [...new Set(links)].sort((a, b) => {
     <ul>
       {sortedLinks.map((link) => (
         <li>
-          <a href={link}>{link}</a>
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            <span
+              class="inline-block w-4 h-4 mr-0 align-[-3px] bg-center bg-no-repeat bg-contain"
+              style={`background-image: url('${getFaviconUrl(link)}');`}
+              aria-hidden="true"
+            ></span>
+            {link}
+          </a>
         </li>
       ))}
     </ul>
