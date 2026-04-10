@@ -68,20 +68,28 @@ function getHostname(url: string) {
   return new URL(url).hostname.toLowerCase();
 }
 
-function getTld(url: string) {
-  return getHostname(url).split(".").at(-1) ?? "";
-}
-
 function getFaviconUrl(url: string) {
   return `https://www.google.com/s2/favicons?domain=${getHostname(url)}&sz=32`;
 }
 
-const sortedLinks = [...new Set(links)].sort((a, b) => {
-  const tldA = getTld(a);
-  const tldB = getTld(b);
+function compareHostnamesFromRight(a: string, b: string) {
+  const partsA = a.split(".").reverse();
+  const partsB = b.split(".").reverse();
+  const len = Math.max(partsA.length, partsB.length);
 
-  if (tldA !== tldB) return tldA.localeCompare(tldB);
-  return getHostname(a).localeCompare(getHostname(b));
+  for (let i = 0; i < len; i++) {
+    const partA = partsA[i] ?? "";
+    const partB = partsB[i] ?? "";
+
+    const diff = partA.localeCompare(partB);
+    if (diff !== 0) return diff;
+  }
+
+  return 0;
+}
+
+const sortedLinks = [...new Set(links)].sort((a, b) => {
+  return compareHostnamesFromRight(getHostname(a), getHostname(b));
 });
 ---
 
@@ -96,7 +104,7 @@ const sortedLinks = [...new Set(links)].sort((a, b) => {
         <li>
           <a href={link} target="_blank" rel="noopener noreferrer">
             <span
-              class="inline-block w-4 h-4 mr-0 align-[-3px] bg-center bg-no-repeat bg-contain"
+              class="inline-block w-4 h-4 mr-1 align-[-3px] bg-center bg-no-repeat bg-contain"
               style={`background-image: url('${getFaviconUrl(link)}');`}
               aria-hidden="true"
             ></span>
