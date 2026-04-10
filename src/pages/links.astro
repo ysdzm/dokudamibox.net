@@ -1,0 +1,102 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const linksText = `
+- https://sksat.net/
+- https://koba789.com/
+- https://puripuri2100.github.io/
+- https://momee.mt/
+- https://kichi2004.jp/
+- https://www.yusuke.pub/
+- https://s7tya.com/
+- https://itsu.dev/
+- https://xn--n8je9hcf0t4a.xn--q9jyb4c/
+- https://xn--19ja1fb.xn--q9jyb4c/
+- https://atarapi.com/
+- https://tsusu0409.com/
+- https://lai-lai.info/
+- https://llhi.org/
+- https://sosukesuzuki.dev/
+- https://ksk432.com/
+- https://slimalized.dev/
+- https://osyoyu.com/
+- https://omemoji.com/
+- https://yn0014.dev/
+- https://www.ultrabumbuku.dev/
+- https://ryoga.dev/
+- https://www.eniehack.net/~eniehack/
+- https://trpfrog.net/
+- https://www.sushichan.live/
+- https://mimifuwa.cc/
+- https://yuino.dev/
+- https://hutinoatari.dev/
+- https://centra-linux.github.io/
+- https://s7tya.com/
+- https://www.sainakey.com/
+- https://mugisus.me/
+- https://iorin.io/
+- https://kanade-k-1228.github.io/
+- https://500ml.moe/
+- https://h6i.org/
+- https://ganyariya.netlify.app/
+- https://eyemono.moe/
+- https://oimo.io/
+- https://sno2wman.net/
+- https://www.sigfpe.info/
+- https://re-taro.dev/
+- https://uiro.dev/
+- https://cordx.cx/
+- https://yuku.dev/
+- https://t3tra.dev/
+- https://nizika-art.com/
+- https://gaburyu.com/
+- https://sasakulab.com/
+- https://tachibanai.one/
+- https://poyo.me/
+- https://yuinoid.neocities.org/
+- https://kusaremkn.com/
+- https://www.yude.jp/
+`;
+
+const links = linksText
+  .trim()
+  .split("\n")
+  .map((v) => v.replace(/^- /, "").trim())
+  .filter(Boolean);
+
+function getHostname(url: string) {
+  return new URL(url).hostname.toLowerCase();
+}
+
+function getTld(url: string) {
+  const parts = getHostname(url).split(".");
+  return parts[parts.length - 1] ?? "";
+}
+
+const sortedLinks = [...new Set(links)].sort((a, b) => {
+  const tldA = getTld(a);
+  const tldB = getTld(b);
+
+  if (tldA !== tldB) {
+    return tldA.localeCompare(tldB);
+  }
+
+  return getHostname(a).localeCompare(getHostname(b));
+});
+---
+
+<PageLayout meta={{ title: "links" }}>
+  <div
+    class="prose-sm prose-cactus prose-headings:pl-4 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+  >
+    <h1 class="title">links</h1>
+
+    <ul>
+      {sortedLinks.map((link) => (
+        <li>
+          <a href={link}>{link}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</PageLayout>
