@@ -5,10 +5,9 @@ publishDate: "2023/12/20"
 coverImage:
   src: "./cover.png"
   alt: "cover"
-tags: ["2023","Works"]
+tags: ["2023", "Works", "dokudamichang"]
 ---
-
 
 ## リンク
 
-- [【C0de*pixivハッカソン】おえかきBlendShape - 道端のドクダミ](https://dokudamichang.hatenablog.com/entry/2024/02/10/034112)
+- [【C0de\*pixivハッカソン】おえかきBlendShape - 道端のドクダミ](https://dokudamichang.hatenablog.com/entry/2024/02/10/034112)
