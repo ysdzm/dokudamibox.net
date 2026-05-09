@@ -20,11 +20,12 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+
       - name: Install, build, and upload your site
         uses: withastro/action@v2
         with:
           path: . # リポジトリ内のAstroプロジェクトのルートロケーション。(オプション)
-          node-version: 18 # サイト構築に使用するNodeのバージョン。デフォルトは18です。（オプション）
+          node-version: 22 # サイト構築に使用するNodeのバージョン。pnpm@latest が Node.js v22.13 以上を要求するため 22 にします。
           package-manager: pnpm@latest # 依存関係のインストールとサイトのビルドに使用する Node パッケージマネージャ。ロックファイルに基づいて自動的に検出されます。(オプション)
 
   deploy:
