@@ -15,6 +15,7 @@ publishDate: "2025/01/20"
 
 - [dokudami(@dokudamichang) X](https://x.com/dokudamichang)
 - [ysdzm(dokudami) GitHub](https://github.com/ysdzm)
+- [dokudami Zenn](https://zenn.dev/dokudami)
 - [dokudami Qiita](https://qiita.com/dokudami)
 - [dokudami Pixiv](https://www.pixiv.net/users/62534197)
 - [dokudami Annict](https://annict.com/@dokudami/watching)

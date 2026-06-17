@@ -69,6 +69,7 @@ ul {
 a:is([href^="https://github.com/"], 
      [href^="https://twitter.com/"], 
      [href^="https://x.com/"], 
+     [href^="https://zenn.dev/"], 
      [href^="https://qiita.com/"], 
 	 [href^="https://www.pixiv.net/"], 
      [href^="https://dokudamichang.hatenablog.com/"],
@@ -93,6 +94,10 @@ a[href^="https://twitter.com/"], a[href^="https://x.com/"]::before {
 
 a[href^="https://qiita.com/"]::before {
     background: url(http://www.google.com/s2/favicons?domain=https://qiita.com/);
+}
+
+a[href^="https://zenn.dev/"]::before {
+    background: url(http://www.google.com/s2/favicons?domain=https://zenn.dev/);
 }
 
 a[href^="https://dokudamichang.hatenablog.com/"]::before {
@@ -133,4 +138,3 @@ a[href^="https://"] {
 		height: auto; /* 高さを自動調整 */
 	}
 }
-
