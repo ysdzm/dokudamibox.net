@@ -13,9 +13,6 @@ type Props<Tag extends HTMLTag> = {
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
 
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-	month: "long",
-};
 ---
 
 <!-- <FormattedDate class="min-w-[120px] text-gray-600 dark:text-gray-400" date={postDate} /> -->
@@ -30,7 +27,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
                         {post.data.title}
                     </h2>
                     <p class="text-xs group-hover:text-green-500 transition-colors duration-300 ease-in-out">
-                        <FormattedDate date={post.data.publishDate} dateTimeOptions={dateTimeOptions} />
+                        <FormattedDate date={post.data.publishDate} />
                     </p>
                 </div>
             </div>

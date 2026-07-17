@@ -1,17 +1,8 @@
-import { siteConfig } from "@/site-config";
+export function getFormattedDate(date: string | number | Date) {
+	const parsedDate = new Date(date);
+	const year = parsedDate.getFullYear();
+	const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+	const day = String(parsedDate.getDate()).padStart(2, "0");
 
-const dateFormat = new Intl.DateTimeFormat(siteConfig.date.locale, siteConfig.date.options);
-
-export function getFormattedDate(
-	date: string | number | Date,
-	options?: Intl.DateTimeFormatOptions,
-) {
-	if (typeof options !== "undefined") {
-		return new Date(date).toLocaleDateString(siteConfig.date.locale, {
-			...(siteConfig.date.options as Intl.DateTimeFormatOptions),
-			...options,
-		});
-	}
-
-	return dateFormat.format(new Date(date));
+	return `${year}/${month}/${day}`;
 }
