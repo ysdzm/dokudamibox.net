@@ -33,7 +33,14 @@ const { headings } = await post.render();
 				<slot />
 				<WebMentions />
 			</div>
-			<!-- <PostTags tags={post.data.tags || []} /> -->
+			{
+				!!post.data.tags?.length && (
+					<>
+						<hr class="mt-12 border-solid" />
+						<PostTags tags={post.data.tags} />
+					</>
+				)
+			}
 		</article>
 	</div>
 	<button

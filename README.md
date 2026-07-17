@@ -8,7 +8,7 @@ This repository contains the source code for a static website built with [Astro]
 
 - 🌟 **Static Site Generation** powered by Astro
 - 🚀 **Automatic Deployment** via GitHub Actions
-- 🔧 **Easy Development Setup** with `npm run dev`
+- 🔧 **Easy Development Setup** with `npm run dev -- --host 0.0.0.0`
 
 ## Usage
 
@@ -19,5 +19,5 @@ $ cd dokudamibox.net
 
 $ npm install
 
-$ npm run dev
+$ npm run dev -- --host 0.0.0.0
 ```
