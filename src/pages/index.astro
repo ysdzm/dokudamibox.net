@@ -7,7 +7,7 @@ import PageLayout from "@/layouts/Base.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 // Posts
-const MAX_POSTS = 5;
+const MAX_POSTS = 3;
 const allPosts = await getAllPosts();
 const allPostsByDate = allPosts
 	.sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
@@ -45,17 +45,18 @@ const allPostsByDate = allPosts
 		{/* About This Blog セクション */}
 		<section aria-label="About this blog" className="mt-16">
 
-			<div class="flex flex-col sm:flex-row items-start sm:items-center gap-y-2 sm:hidden">
-			<h2 class="font-semibold text-black dark:text-white">Information</h2>
-			<ul>
-				<li>
-				<a href="/about" class="text-accent underline font-bold">About</a> ... dokudami について
-				</li>
-				<li>
-				<a href="/posts" class="text-accent underline font-bold">Posts</a> ... 活動報告
-				</li>
-			</ul>
-			</div>
+
+			<section id="contents" aria-label="Site contents" class="mt-16">
+				<h2 class="font-semibold text-black dark:text-white">Contents</h2>
+				<ul class="contents-links mt-2">
+					<li><a href="/about/">/about</a></li>
+					<li><a href="/posts/">/posts</a></li>
+					<li><a href="/tags/">/tags</a></li>
+					<li><a href="/recommend/">/recommend</a></li>
+					<li><a href="/dokudamichang/">/dokudamichang</a></li>
+					<li><a href="/webring/">/webring</a></li>
+				</ul>
+			</section>
 
 			<!-- その時が来たらコメントアウトを外す -->
 			<section aria-label="Blog post list" class="mt-16">
