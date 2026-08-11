@@ -6,15 +6,14 @@
 // import Header from "@/components/layout/Header.astro";
 
 const { frontmatter } = Astro.props;
-const { description, ogImage, publishDate, title, updatedDate } = frontmatter;
+const { description, publishDate, title, updatedDate } = frontmatter;
 const articleDate = new Date(updatedDate ?? publishDate).toISOString();
-const socialImage = ogImage ?? `/dokudami.png`;
 
 import "../styles/global.css";
 import BaseLayout from "./Base.astro";
 ---
 
-<BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }} >
+<BaseLayout meta={{ articleDate, description, title }} >
 <div class="gap-x-10 lg:flex lg:items-start">
 	
 	<article class="flex-grow break-words" data-pagefind-body>

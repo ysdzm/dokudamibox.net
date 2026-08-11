@@ -14,15 +14,14 @@ interface Props {
 
 const { post } = Astro.props;
 const {
-	data: { description, ogImage, publishDate, title, updatedDate },
-	slug,
+	data: { description, publishDate, title, updatedDate },
 } = post;
-const socialImage = ogImage ?? `/og-image/${slug}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { headings } = await post.render();
+const { headings, remarkPluginFrontmatter } = await post.render();
+const metaDescription = remarkPluginFrontmatter.excerpt || description;
 ---
 
-<BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
+<BaseLayout meta={{ articleDate, description: metaDescription, title }}>
 	<div class="gap-x-10 lg:flex lg:items-start">
 		{!!headings.length && <TOC headings={headings} />}
 		<article class="flex-grow break-words p-2" data-pagefind-body>
