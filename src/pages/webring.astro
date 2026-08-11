@@ -1,4 +1,7 @@
 ---
+import { domainToUnicode } from "node:url";
+
+import DomainTree from "@/components/DomainTree.astro";
 import PageLayout from "@/layouts/Base.astro";
 
 const linksText = `
@@ -70,59 +73,65 @@ const linksText = `
 `;
 
 const links = linksText
-  .trim()
-  .split("\n")
-  .map((v) => v.replace(/^- /, "").trim())
-  .filter(Boolean);
+	.trim()
+	.split("\n")
+	.map((v) => v.replace(/^- /, "").trim())
+	.filter(Boolean);
 
-function getHostname(url: string) {
-  return new URL(url).hostname.toLowerCase();
+interface DomainNode {
+	children: DomainNode[];
+	label: string;
+	links: string[];
 }
 
-function getFaviconUrl(url: string) {
-  return `https://www.google.com/s2/favicons?domain=${getHostname(url)}&sz=32`;
+interface MutableDomainNode {
+	children: Map<string, MutableDomainNode>;
+	label: string;
+	links: Set<string>;
 }
 
-function compareHostnamesFromRight(a: string, b: string) {
-  const partsA = a.split(".").reverse();
-  const partsB = b.split(".").reverse();
-  const len = Math.max(partsA.length, partsB.length);
+const domainRoots = new Map<string, MutableDomainNode>();
 
-  for (let i = 0; i < len; i++) {
-    const partA = partsA[i] ?? "";
-    const partB = partsB[i] ?? "";
+for (const link of new Set(links)) {
+	const labels = domainToUnicode(new URL(link).hostname)
+		.toLowerCase()
+		.split(".")
+		.filter((label) => label !== "www")
+		.reverse();
+	let siblings = domainRoots;
+	let currentNode: MutableDomainNode | undefined;
 
-    const diff = partA.localeCompare(partB);
-    if (diff !== 0) return diff;
-  }
+	for (const label of labels) {
+		currentNode = siblings.get(label);
+		if (!currentNode) {
+			currentNode = { children: new Map(), label, links: new Set() };
+			siblings.set(label, currentNode);
+		}
+		siblings = currentNode.children;
+	}
 
-  return 0;
+	currentNode?.links.add(link);
 }
 
-const sortedLinks = [...new Set(links)].sort((a, b) => {
-  return compareHostnamesFromRight(getHostname(a), getHostname(b));
-});
+function serializeTree(nodes: Map<string, MutableDomainNode>): DomainNode[] {
+	return [...nodes.values()]
+		.sort((a, b) => a.label.localeCompare(b.label))
+		.map((node) => ({
+			children: serializeTree(node.children),
+			label: node.label,
+			links: [...node.links].sort(),
+		}));
+}
+
+const domainTree = serializeTree(domainRoots);
 ---
 
 <PageLayout meta={{ title: "links" }}>
-  <div
-    class="prose-sm prose-cactus prose-headings:pl-4 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
-  >
-    <h1 class="title">webring</h1>
+	<div
+		class="prose-sm prose-cactus prose-headings:pl-4 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+	>
+		<h1 class="title">webring</h1>
 
-    <ul>
-      {sortedLinks.map((link) => (
-        <li>
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            <span
-              class="inline-block w-4 h-4 mr-0 align-[-3px] bg-center bg-no-repeat bg-contain"
-              style={`background-image: url('${getFaviconUrl(link)}');`}
-              aria-hidden="true"
-            ></span>
-            {link}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
+		<DomainTree nodes={domainTree} />
+	</div>
 </PageLayout>

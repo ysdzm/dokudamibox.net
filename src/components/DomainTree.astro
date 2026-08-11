@@ -1,0 +1,48 @@
+---
+interface DomainNode {
+	children: DomainNode[];
+	label: string;
+	links: string[];
+}
+
+interface Props {
+	nodes: DomainNode[];
+}
+
+const { nodes } = Astro.props;
+
+function getFaviconUrl(url: string) {
+	return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
+}
+---
+
+<ul>
+	{
+		nodes.map((node) => (
+			<li>
+				{node.links.length === 1 ? (
+					<a href={node.links[0]} rel="noopener noreferrer" target="_blank">
+						<span
+							aria-hidden="true"
+							class="mr-1 inline-block h-4 w-4 bg-contain bg-center bg-no-repeat align-[-3px]"
+							style={`background-image: url('${getFaviconUrl(node.links[0])}');`}
+						/>
+						{node.label}
+					</a>
+				) : (
+					<span>{node.label}</span>
+				)}
+				{node.links.length > 1 && (
+					<ul>
+						{node.links.map((link) => (
+							<li>
+								<a href={link}>{link}</a>
+							</li>
+						))}
+					</ul>
+				)}
+				{node.children.length > 0 && <Astro.self nodes={node.children} />}
+			</li>
+		))
+	}
+</ul>
