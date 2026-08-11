@@ -12,61 +12,63 @@ type Props<Tag extends HTMLTag> = {
 } & Polymorphic<{ as: Tag }>;
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
-
 ---
 
 <!-- <FormattedDate class="min-w-[120px] text-gray-600 dark:text-gray-400" date={postDate} /> -->
 <Tag>
-    <a class="block px-4 group" data-astro-prefetch href={`/posts/${post.slug}/`}>
-        <div class="relative border border-gray-200 dark:border-gray-700 h-[80px] group-hover:border-green-500 transition-colors duration-300 ease-in-out group-hover:bg-gray-50 dark:group-hover:bg-gray-700">
-            {/* 左側 */}
-            <div class="float-left w-3/5 pl-4 h-full">
-                <div>
-                    {post.data.draft && <span class="text-red-500">(Draft) </span>}
-                    <h2 class="text-sm group-hover:text-green-500 transition-colors duration-300 ease-in-out">
-                        {post.data.title}
-                    </h2>
-                    <p class="text-xs group-hover:text-green-500 transition-colors duration-300 ease-in-out">
-                        <FormattedDate date={post.data.publishDate} />
-                    </p>
-                </div>
-            </div>
+	<a class="group block px-4" data-astro-prefetch href={`/posts/${post.slug}/`}>
+		<div
+			class="relative h-[80px] border border-gray-200 transition-colors duration-300 ease-in-out group-hover:border-green-500 group-hover:bg-gray-50 dark:border-gray-700 dark:group-hover:bg-gray-700"
+		>
+			{/* 左側 */}
+			<div class="float-left h-full w-3/5 pl-4">
+				<div>
+					{post.data.draft && <span class="text-red-500">(Draft) </span>}
+					<h2 class="text-sm transition-colors duration-300 ease-in-out group-hover:text-green-500">
+						{post.data.title}
+					</h2>
+					<p class="text-xs transition-colors duration-300 ease-in-out group-hover:text-green-500">
+						<FormattedDate date={post.data.publishDate} />
+					</p>
+				</div>
+			</div>
 
-            {/* 右側 */}
-            {post.data.coverImage && (
-                <div class="float-right w-2/5 h-full overflow-hidden relative group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                    <div class="h-full">
-                        <Image
-                            alt={post.data.coverImage.alt}
-                            class="object-cover h-full"
-                            fetchpriority="high"
-                            loading="eager"
-                            src={post.data.coverImage.src}
-                        />
-                    </div>
-                    {/* SVG 部分を右側の画像上に重ねる */}
-                    <svg 
-                        class="absolute top-1/2 right-2 -translate-y-1/2 z-10 w-6 h-6 stroke-2 fill-none stroke-current group-hover:stroke-green-500 transition-colors duration-300 ease-in-out" 
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <line 
-                            class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" 
-                            x1="5" 
-                            x2="19" 
-                            y1="12" 
-                            y2="12" />
-                        <polyline 
-                            class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" 
-                            points="12 5 19 12 12 19" />
-                    </svg>
-                </div>
-            )}
-        </div>
-    </a>
+			{/* 右側 */}
+			{
+				post.data.coverImage && (
+					<div class="relative float-right h-full w-2/5 overflow-hidden transition-transform duration-300 ease-in-out group-hover:scale-105">
+						<div class="h-full">
+							<Image
+								alt={post.data.coverImage.alt}
+								class="h-full object-cover"
+								fetchpriority="auto"
+								loading="lazy"
+								src={post.data.coverImage.src}
+							/>
+						</div>
+						{/* SVG 部分を右側の画像上に重ねる */}
+						<svg
+							class="absolute right-2 top-1/2 z-10 h-6 w-6 -translate-y-1/2 fill-none stroke-current stroke-2 transition-colors duration-300 ease-in-out group-hover:stroke-green-500"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<line
+								class="translate-x-3 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100"
+								x1="5"
+								x2="19"
+								y1="12"
+								y2="12"
+							/>
+							<polyline
+								class="-translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0"
+								points="12 5 19 12 12 19"
+							/>
+						</svg>
+					</div>
+				)
+			}
+		</div>
+	</a>
 </Tag>
-
-
-
-
 
 {withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}

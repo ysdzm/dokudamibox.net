@@ -24,16 +24,16 @@ const postDate = getPostSortDate(post);
 	</a>
 	{
 		post.data.coverImage && (
-		<div class="aspect-h-9 aspect-w-16 mb-6" style="width: 150px;">
-			<Image
-				alt={post.data.coverImage.alt}
-				class="object-cover"
-				fetchpriority="high"
-				loading="eager"
-				src={post.data.coverImage.src}
-			/>
-		</div>
-	)
+			<div class="aspect-h-9 aspect-w-16 mb-6" style="width: 150px;">
+				<Image
+					alt={post.data.coverImage.alt}
+					class="object-cover"
+					fetchpriority="auto"
+					loading="lazy"
+					src={post.data.coverImage.src}
+				/>
+			</div>
+		)
 	}
 </Tag>
 {withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}

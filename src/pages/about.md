@@ -36,7 +36,7 @@ publishDate: "2025/01/20"
         <a href="https://pixe.la/v1/users/dokudami/graphs/dokudamibox.html" target="_blank">
             <picture>
                 <source srcset="https://pixe.la/v1/users/dokudami/graphs/dokudamibox.svg?mode=short" media="(max-width: 768px)">
-                <img src="https://pixe.la/v1/users/dokudami/graphs/dokudamibox.svg" alt="Pixela Graph" style="width: 100%; object-fit: contain;">
+                <img loading="lazy" decoding="async" src="https://pixe.la/v1/users/dokudami/graphs/dokudamibox.svg" alt="Pixela Graph" style="width: 100%; object-fit: contain;">
             </picture>
         </a>
     </div>
