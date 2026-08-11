@@ -14,7 +14,6 @@ const {
 } = Astro.props;
 
 const { remarkPluginFrontmatter } = await render();
-
 ---
 
 {
@@ -23,6 +22,9 @@ const { remarkPluginFrontmatter } = await render();
 			<Image
 				alt={data.coverImage.alt}
 				class="object-cover"
+				format="webp"
+				quality={80}
+				width={Math.min(data.coverImage.src.width, 1280)}
 				fetchpriority="high"
 				loading="eager"
 				src={data.coverImage.src}

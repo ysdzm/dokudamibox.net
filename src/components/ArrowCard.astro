@@ -41,6 +41,9 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 							<Image
 								alt={post.data.coverImage.alt}
 								class="h-full object-cover"
+								format="webp"
+								quality={70}
+								width={Math.min(post.data.coverImage.src.width, 400)}
 								fetchpriority="auto"
 								loading="lazy"
 								src={post.data.coverImage.src}

@@ -28,6 +28,9 @@ const postDate = getPostSortDate(post);
 				<Image
 					alt={post.data.coverImage.alt}
 					class="object-cover"
+					format="webp"
+					quality={70}
+					width={Math.min(post.data.coverImage.src.width, 300)}
 					fetchpriority="auto"
 					loading="lazy"
 					src={post.data.coverImage.src}
