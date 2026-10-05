@@ -20,8 +20,8 @@ const tweet = await fetch(baseUrl.toString())
 {
   tweet && (
     <>
-      <div style="width: 100%; max-width: 500px; margin: auto;">
-        <div set:html={tweet.html} style="overflow: hidden; width: 80%; height: auto;" />
+      <div style="width: 100%; max-width: 360px; margin-inline: 0;">
+        <div set:html={tweet.html} style="width: 100%; height: auto;" />
       </div>
       <script
         async
