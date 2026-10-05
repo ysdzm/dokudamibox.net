@@ -20,7 +20,7 @@ const tweet = await fetch(baseUrl.toString())
 {
   tweet && (
     <>
-      <div style="width: 100%; max-width: 360px; margin-inline: 0;">
+      <div class="tweet-embed">
         <div set:html={tweet.html} style="width: 100%; height: auto;" />
       </div>
       <script
@@ -33,3 +33,25 @@ const tweet = await fetch(baseUrl.toString())
   )
 }
 
+
+<style>
+  .tweet-embed {
+    width: 100%;
+    max-width: 360px;
+    margin-inline: 0;
+    min-width: 0;
+  }
+
+  :global(.tweet-grid) {
+    display: grid;
+    grid-template-columns: minmax(0, 360px);
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (min-width: 640px) {
+    :global(.tweet-grid) {
+      grid-template-columns: repeat(2, minmax(0, 360px));
+    }
+  }
+</style>
