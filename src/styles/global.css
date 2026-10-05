@@ -153,6 +153,11 @@ a[href^="https://"] {
 	color: hsl(var(--theme-accent))
 }
 
+a[href^="/tags/"] {
+	color: hsl(var(--theme-accent));
+	font-weight: 700;
+}
+
 .contents-links a[href^="/"] {
 	color: hsl(var(--theme-accent))
 }
