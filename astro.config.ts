@@ -13,6 +13,9 @@ import { remarkReadingTime } from "./src/utils/remark-reading-time";
 
 // https://astro.build/config
 export default defineConfig({
+	server: {
+		host: "0.0.0.0",
+	},
 	image: {
 		domains: ["webmention.io"],
 	},
@@ -50,11 +53,6 @@ export default defineConfig({
 		},
 		plugins: [rawFonts([".ttf", ".woff"])],
 		server: {
-			hmr: {
-				clientPort: 3000, // HMR クライアントが接続するポート（ホストのポート）
-			},
-			host: "0.0.0.0", // Docker 内部からホストにアクセス可能にする
-			port: 3000, // Vite サーバーのポート番号
 			watch: {
 				usePolling: true, // ファイル監視にポーリングを使用（Docker で必要な場合が多い）
 			},
