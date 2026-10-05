@@ -5,7 +5,6 @@ import BlogHero from "@/components/blog/Hero.astro";
 // import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 
-import PostTags from "../components/blog/PostTags.astro";
 import BaseLayout from "./Base.astro";
 
 interface Props {
@@ -32,14 +31,7 @@ const metaDescription = remarkPluginFrontmatter.excerpt || description;
 				<slot />
 				<WebMentions />
 			</div>
-			{
-				!!post.data.tags?.length && (
-					<>
-						<hr class="mt-12 border-solid" />
-						<PostTags tags={post.data.tags} />
-					</>
-				)
-			}
+
 		</article>
 	</div>
 	<button
