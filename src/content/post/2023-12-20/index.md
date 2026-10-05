@@ -5,7 +5,7 @@ publishDate: "2023/12/20"
 tags: ["2023", "Works", "dokudamichang"]
 ---
 
-![cover](./cover.png)
+- ![cover](./cover.png)
 
 ## リンク
 

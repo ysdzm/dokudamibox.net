@@ -5,9 +5,9 @@ publishDate: "2024/10/26"
 tags: ["2024","自転車"]
 ---
 
-![cover](./cover.png)
-
 霞ヶ浦をロードバイクで一周しました。
+
+- ![cover](./cover.png)
 
 ## リンク
 
