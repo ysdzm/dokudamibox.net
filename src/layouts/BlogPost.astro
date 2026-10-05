@@ -31,7 +31,7 @@ const relatedPostGroups = getRelatedPostGroups(post, await getAllPosts());
 		<article class="flex-grow break-words p-2" data-pagefind-body>
 			<div id="blog-hero"><BlogHero content={post} /></div>
 			<div
-				class="mx-auto max-w-2xl prose-headings:pl-4 prose prose-sm prose-cactus max-w-none mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+				class="mx-auto max-w-2xl prose prose-sm prose-cactus max-w-none mt-12 prose-headings:font-semibold prose-headings:text-accent-2 heading-hashes prose-th:before:content-none"
 			>
 				<slot />
 				<WebMentions />
@@ -41,7 +41,7 @@ const relatedPostGroups = getRelatedPostGroups(post, await getAllPosts());
 	</div>
 	{!!relatedPostGroups.length && (
 		<section aria-label="Related Posts" class="mt-12 w-full" data-pagefind-ignore>
-			<h2 class="pl-4 font-semibold text-accent-2 before:absolute before:-ms-4 before:text-accent before:content-['#']">Related Posts</h2>
+			<h2 class="heading-hashes font-semibold text-accent-2">Related Posts</h2>
 			<div class="mt-4 space-y-8">
 				{relatedPostGroups.map(({ tag, posts }) => (
 					<section aria-label={`Related posts tagged ${tag}`}>

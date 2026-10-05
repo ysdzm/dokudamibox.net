@@ -58,7 +58,44 @@ h2 {
 	@apply text-xl font-bold py-2;
 }
 
-/* h1, h2 のスタイル */
+/* Prefix decorated headings with their Markdown heading level. */
+h1 {
+	--heading-hashes: "#";
+	--heading-hash-count: 1;
+}
+h2 {
+	--heading-hashes: "##";
+	--heading-hash-count: 2;
+}
+h3 {
+	--heading-hashes: "###";
+	--heading-hash-count: 3;
+}
+h4 {
+	--heading-hashes: "####";
+	--heading-hash-count: 4;
+}
+h5 {
+	--heading-hashes: "#####";
+	--heading-hash-count: 5;
+}
+h6 {
+	--heading-hashes: "######";
+	--heading-hash-count: 6;
+}
+
+:is(.heading-hashes :is(h1, h2, h3, h4, h5, h6), :is(h1, h2, h3, h4, h5, h6).heading-hashes):not(:where(.not-prose, .not-prose *)) {
+	position: relative;
+	padding-inline-start: calc((var(--heading-hash-count) + 0.5) * 1ch);
+}
+
+:is(.heading-hashes :is(h1, h2, h3, h4, h5, h6), :is(h1, h2, h3, h4, h5, h6).heading-hashes):not(:where(.not-prose, .not-prose *))::before {
+	content: var(--heading-hashes);
+	position: absolute;
+	inset-inline-start: 0;
+	color: hsl(var(--theme-accent));
+}
+
 
 ul {
 	@apply list-disc pl-5;
