@@ -15,6 +15,8 @@ const allPostsByDate = allPosts
 ---
 
 <PageLayout meta={{ title: "Home" }}>
+	<div class="gap-x-10 lg:flex lg:items-start">
+		<article class="flex-grow break-words">
 	<div
 		class="prose-sm prose-cactus prose-headings:pl-4 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
 	>
@@ -75,5 +77,7 @@ const allPostsByDate = allPosts
 				</div>
 			</section>
 		</section>
-	</div></PageLayout
->
+	</div>
+		</article>
+	</div>
+</PageLayout>
