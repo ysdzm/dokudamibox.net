@@ -1,10 +1,14 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
+import ArrowCard from "@/components/ArrowCard.astro";
 import BlogHero from "@/components/blog/Hero.astro";
 // import TOC from "@/components/blog/TOC.astro";
+import { getAllPosts } from "@/data/post";
+import { getRelatedPostGroups } from "../utils/relatedPosts";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 
+import PostTags from "../components/blog/PostTags.astro";
 import BaseLayout from "./Base.astro";
 
 interface Props {
@@ -18,6 +22,7 @@ const {
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { remarkPluginFrontmatter } = await post.render();
 const metaDescription = remarkPluginFrontmatter.excerpt || description;
+const relatedPostGroups = getRelatedPostGroups(post, await getAllPosts());
 ---
 
 <BaseLayout meta={{ articleDate, description: metaDescription, title }}>
@@ -34,6 +39,21 @@ const metaDescription = remarkPluginFrontmatter.excerpt || description;
 
 		</article>
 	</div>
+	{!!relatedPostGroups.length && (
+		<section aria-label="Related Posts" class="mt-12 w-full" data-pagefind-ignore>
+			<h2 class="pl-4 font-semibold text-accent-2 before:absolute before:-ms-4 before:text-accent before:content-['#']">Related Posts</h2>
+			<div class="mt-4 space-y-8">
+				{relatedPostGroups.map(({ tag, posts }) => (
+					<section aria-label={`Related posts tagged ${tag}`}>
+						<PostTags tags={[tag]} as="h3" class="mb-3" filter={false} />
+						<div class="not-prose space-y-4">
+							{posts.map((relatedPost) => <ArrowCard post={relatedPost} />)}
+						</div>
+					</section>
+				))}
+			</div>
+		</section>
+	)}
 	<button
 		aria-label="Back to Top"
 		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"

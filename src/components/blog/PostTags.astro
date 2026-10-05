@@ -1,13 +1,16 @@
 ---
 interface Props {
 	tags: string[];
+	as?: "div" | "h3";
+	class?: string;
+	filter?: boolean;
 }
 
-const { tags } = Astro.props;
+const { tags, as: Tag = "div", class: className = "mt-3", filter = true } = Astro.props;
 ---
 
 {!!tags?.length && (
-	<div class="mt-3">
+	<Tag class={className}>
 		<svg
 			aria-hidden="true"
 			class="inline-block h-6 w-6"
@@ -30,10 +33,10 @@ const { tags } = Astro.props;
 				<a
 					aria-label={`View more blogs with the tag ${tag}`}
 					class="cactus-link inline-block before:content-['#']"
-					data-pagefind-filter="tag"
+					data-pagefind-filter={filter ? "tag" : undefined}
 					href={`/tags/${tag}/`}
 				>{tag}</a>{i < tags.length - 1 && ", "}
 			</>
 		))}
-	</div>
+	</Tag>
 )}
