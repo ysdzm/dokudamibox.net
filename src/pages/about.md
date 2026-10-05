@@ -43,3 +43,12 @@ publishDate: "2025/01/20"
 </div>
 
 - 参考：[Scrapboxへの更新がどれくらい活発におこなわれているかをPixelaで可視化する](https://blog.a-know.me/entry/2019/10/22/182629)
+
+<section id="contents" aria-label="Site contents" class="mt-16">
+	<h2 class="font-semibold text-black dark:text-white">Contents</h2>
+	<ul class="contents-links mt-2">
+		<li><a href="/recommend/">/recommend</a></li>
+		<li><a href="/dokudamichang/">/dokudamichang</a></li>
+		<li><a href="/webring/">/webring</a></li>
+	</ul>
+</section>
