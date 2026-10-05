@@ -2,10 +2,9 @@
 import type { HTMLTag, Polymorphic } from "astro/types";
 import type { CollectionEntry } from "astro:content";
 
-import { getPostSortDate } from "@/data/post";
-import { Image } from "astro:assets";
+import PostThumbnail from "./PostThumbnail.astro";
+import { getPostThumbnail } from "../../utils/postThumbnail";
 
-import FormattedDate from "../FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = {
 	post: CollectionEntry<"post">;
@@ -13,7 +12,7 @@ type Props<Tag extends HTMLTag> = {
 } & Polymorphic<{ as: Tag }>;
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
-const postDate = getPostSortDate(post);
+const thumbnail = getPostThumbnail(post);
 ---
 
 <!-- <FormattedDate class="min-w-[120px] text-gray-600 dark:text-gray-400" date={postDate} /> -->
@@ -23,17 +22,12 @@ const postDate = getPostSortDate(post);
 		{post.data.title}
 	</a>
 	{
-		post.data.coverImage && (
+		thumbnail && (
 			<div class="aspect-h-9 aspect-w-16 mb-6" style="width: 150px;">
-				<Image
-					alt={post.data.coverImage.alt}
+				<PostThumbnail
+					image={thumbnail}
 					class="object-cover"
-					format="webp"
-					quality={70}
-					width={Math.min(post.data.coverImage.src.width, 300)}
-					fetchpriority="auto"
-					loading="lazy"
-					src={post.data.coverImage.src}
+					width={300}
 				/>
 			</div>
 		)

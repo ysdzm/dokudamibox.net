@@ -21,3 +21,15 @@ $ npm install
 
 $ npm run dev -- --host 0.0.0.0
 ```
+
+## Images in posts
+
+Add images directly to the Markdown or MDX body:
+
+```markdown
+![Description of the image](./image.png)
+```
+
+Images display at up to 300px wide. The first Markdown image in a post is also
+used by Home, Posts, tag lists, and related-post cards. There is no separate
+`coverImage` field. Reference-style Markdown images are supported too.

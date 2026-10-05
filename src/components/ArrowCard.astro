@@ -2,7 +2,8 @@
 import type { HTMLTag, Polymorphic } from "astro/types";
 import type { CollectionEntry } from "astro:content";
 
-import { Image } from "astro:assets";
+import PostThumbnail from "./blog/PostThumbnail.astro";
+import { getPostThumbnail } from "../utils/postThumbnail";
 
 import FormattedDate from "./FormattedDate.astro";
 
@@ -12,6 +13,7 @@ type Props<Tag extends HTMLTag> = {
 } & Polymorphic<{ as: Tag }>;
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const thumbnail = getPostThumbnail(post);
 ---
 
 <!-- <FormattedDate class="min-w-[120px] text-gray-600 dark:text-gray-400" date={postDate} /> -->
@@ -35,18 +37,13 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 
 			{/* 右側 */}
 			{
-				post.data.coverImage && (
+				thumbnail && (
 					<div class="relative float-right h-full w-2/5 overflow-hidden transition-transform duration-300 ease-in-out group-hover:scale-105">
 						<div class="h-full">
-							<Image
-								alt={post.data.coverImage.alt}
+							<PostThumbnail
+								image={thumbnail}
 								class="h-full object-cover"
-								format="webp"
-								quality={70}
-								width={Math.min(post.data.coverImage.src.width, 400)}
-								fetchpriority="auto"
-								loading="lazy"
-								src={post.data.coverImage.src}
+								width={400}
 							/>
 						</div>
 						{/* SVG 部分を右側の画像上に重ねる */}

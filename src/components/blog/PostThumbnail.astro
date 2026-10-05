@@ -1,0 +1,28 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+	image: { src: ImageMetadata | string; alt: string };
+	class?: string;
+	width?: number;
+}
+
+const { image, class: className, width = 400 } = Astro.props;
+---
+
+{
+	typeof image.src === "string" ? (
+		<img alt={image.alt} class={className} loading="lazy" decoding="async" src={image.src} />
+	) : (
+		<Image
+			alt={image.alt}
+			class={className}
+			format="webp"
+			quality={70}
+			width={Math.min(image.src.width, width)}
+			loading="lazy"
+			src={image.src}
+		/>
+	)
+}

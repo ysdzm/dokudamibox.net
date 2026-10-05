@@ -2,11 +2,10 @@
 title: "おえかきBlendShape"
 description: "This post is an example of how to add a cover/hero image"
 publishDate: "2023/12/20"
-coverImage:
-  src: "./cover.png"
-  alt: "cover"
 tags: ["2023", "Works", "dokudamichang"]
 ---
+
+![cover](./cover.png)
 
 ## リンク
 

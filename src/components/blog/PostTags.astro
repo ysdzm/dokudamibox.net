@@ -6,7 +6,7 @@ interface Props {
 	filter?: boolean;
 }
 
-const { tags, as: Tag = "div", class: className = "mt-3", filter = true } = Astro.props;
+const { tags, as: Tag = "div", class: className = "mt-3", filter = true }: Props = Astro.props;
 ---
 
 {!!tags?.length && (

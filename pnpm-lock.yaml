@@ -35,6 +35,12 @@ importers:
       rehype-external-links:
         specifier: ^3.0.0
         version: 3.0.0
+      remark-mdx:
+        specifier: ^3.0.1
+        version: 3.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
       satori:
         specifier: 0.12.1
         version: 0.12.1
@@ -44,6 +50,9 @@ importers:
       sharp:
         specifier: ^0.33.2
         version: 0.33.2
+      unified:
+        specifier: ^11.0.4
+        version: 11.0.4
     devDependencies:
       '@astrojs/check':
         specifier: ^0.5.10

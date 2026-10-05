@@ -184,3 +184,11 @@ a[href^="/tags/"] {
 		height: auto; /* 高さを自動調整 */
 	}
 }
+
+/* Markdown images share a compact, responsive presentation. */
+.prose :where(img):not(:where(.not-prose, .not-prose *, .tweet-embed *)),
+.prose-sm :where(img):not(:where(.not-prose, .not-prose *, .tweet-embed *)) {
+	width: 300px;
+	max-width: 100%;
+	height: auto;
+}
