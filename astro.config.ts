@@ -16,9 +16,6 @@ export default defineConfig({
 	server: {
 		host: "0.0.0.0",
 	},
-	image: {
-		domains: ["webmention.io"],
-	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
 		icon(),

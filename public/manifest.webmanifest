@@ -1,7 +1,7 @@
 {
 	"name": "dokudamibox.net",
-	"short_name": "Astro_Cactus",
-	"description": "Starter blog site for Astro",
+	"short_name": "dokudamibox.net",
+	"description": "dokudamibox.netからはじめよう、",
 	"icons": [
 		{
 			"src": "/192x192.png",
