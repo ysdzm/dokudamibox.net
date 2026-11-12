@@ -6,6 +6,13 @@
       "version": "18"
     }
   },
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Astro dev",
+      "onAutoForward": "notify"
+    }
+  },
   "postCreateCommand": "npm install",
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "customizations": {

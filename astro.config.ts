@@ -15,6 +15,7 @@ import { remarkReadingTime } from "./src/utils/remark-reading-time";
 export default defineConfig({
 	server: {
 		host: "0.0.0.0",
+		port: 4321,
 	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
@@ -50,8 +51,9 @@ export default defineConfig({
 		},
 		plugins: [rawFonts([".ttf", ".woff"])],
 		server: {
+			strictPort: true,
 			watch: {
-				usePolling: true, // ファイル監視にポーリングを使用（Docker で必要な場合が多い）
+				usePolling: process.env.CHOKIDAR_USEPOLLING === "true",
 			},
 		},
 	},
