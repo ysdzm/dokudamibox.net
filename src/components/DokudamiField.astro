@@ -1,0 +1,126 @@
+<dokudami-field class="dokudami-field" aria-hidden="true">
+	<canvas></canvas>
+</dokudami-field>
+
+<script>
+	import { createPatch, drawPatch, type Patch } from "../utils/dokudami";
+
+	class DokudamiField extends HTMLElement {
+		#canvas: HTMLCanvasElement | undefined;
+		#context: CanvasRenderingContext2D | null = null;
+		#patch: Patch | undefined;
+		#seed = crypto.getRandomValues(new Uint32Array(1))[0] ?? 1;
+		#dark = false;
+		#frame = 0;
+		#elapsed = 0;
+		#lastTimestamp = 0;
+		#lastPaint = 0;
+		#visible = false;
+		#motion = matchMedia("(prefers-reduced-motion: reduce)");
+		#resize: ResizeObserver | undefined;
+		#intersection: IntersectionObserver | undefined;
+		#theme: MutationObserver | undefined;
+		#controller: AbortController | undefined;
+
+		connectedCallback() {
+			this.#canvas = this.querySelector("canvas") ?? undefined;
+			this.#context = this.#canvas?.getContext("2d") ?? null;
+			if (!this.#canvas || !this.#context) return;
+			this.#dark = document.documentElement.dataset.theme === "dark";
+			this.#controller = new AbortController();
+			const { signal } = this.#controller;
+			this.#motion.addEventListener("change", this.#updateAnimation, { signal });
+			document.addEventListener("visibilitychange", this.#updateAnimation, { signal });
+
+			this.#resize = new ResizeObserver(() => {
+				if (!this.#canvas) return;
+				// Draw on a small pixel grid; CSS scales it without smoothing.
+				const width = Math.max(1, Math.ceil(this.clientWidth / 3));
+				const height = Math.max(1, Math.ceil(this.clientHeight / 3));
+				if (this.#patch?.width === width && this.#patch.height === height) return;
+				this.#canvas.width = width;
+				this.#canvas.height = height;
+				this.#patch = createPatch(width, height, this.#seed);
+				this.#draw();
+			});
+			this.#resize.observe(this);
+			this.#intersection = new IntersectionObserver(([entry]) => {
+				this.#visible = entry?.isIntersecting ?? false;
+				this.#updateAnimation();
+			});
+			this.#intersection.observe(this);
+
+			this.#theme = new MutationObserver(() => {
+				this.#dark = document.documentElement.dataset.theme === "dark";
+				this.#draw();
+			});
+			this.#theme.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["data-theme"],
+			});
+		}
+
+		disconnectedCallback() {
+			cancelAnimationFrame(this.#frame);
+			this.#frame = 0;
+			this.#lastTimestamp = 0;
+			this.#resize?.disconnect();
+			this.#intersection?.disconnect();
+			this.#theme?.disconnect();
+			this.#controller?.abort();
+		}
+
+		#draw() {
+			if (this.#context && this.#patch) {
+				drawPatch(this.#context, this.#patch, this.#dark, this.#elapsed / 1000);
+			}
+		}
+
+		#updateAnimation = () => {
+			cancelAnimationFrame(this.#frame);
+			this.#frame = 0;
+			this.#lastTimestamp = 0;
+			this.#lastPaint = 0;
+			if (this.#motion.matches || !this.#visible || document.hidden) {
+				this.#draw();
+				return;
+			}
+			this.#frame = requestAnimationFrame(this.#animate);
+		};
+
+		#animate = (timestamp: number) => {
+			if (this.#lastTimestamp) {
+				this.#elapsed += Math.min(timestamp - this.#lastTimestamp, 100);
+			}
+			this.#lastTimestamp = timestamp;
+			// The slow pixel-art breeze only needs 15 redraws per second.
+			if (timestamp - this.#lastPaint >= 1000 / 15) {
+				this.#draw();
+				this.#lastPaint = timestamp;
+			}
+			this.#frame = requestAnimationFrame(this.#animate);
+		};
+	}
+
+	if (!customElements.get("dokudami-field")) {
+		customElements.define("dokudami-field", DokudamiField);
+	}
+</script>
+
+<style>
+	.dokudami-field {
+		position: absolute;
+		inset: 1rem 0 auto;
+		display: block;
+		height: 4.5rem;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+		image-rendering: pixelated;
+	}
+</style>
