@@ -27,19 +27,21 @@ const relatedPostGroups = getRelatedPostGroups(post, await getAllPosts());
 <BaseLayout meta={{ articleDate, description: metaDescription, title }}>
 	<div class="gap-x-10 lg:flex lg:items-start">
 		<!-- {!!headings.length && <TOC headings={headings} />} -->
-		<article class="flex-grow break-words p-2" data-pagefind-body>
+		<article
+			class="min-w-0 flex-grow break-words border border-gray-200 p-4 dark:border-gray-700 sm:p-6"
+			data-pagefind-body
+		>
 			<div id="blog-hero"><BlogHero content={post} /></div>
 			<div
 				class="mx-auto max-w-2xl prose prose-sm prose-cactus max-w-none mt-12 prose-headings:font-semibold prose-headings:text-accent-2 heading-hashes prose-th:before:content-none"
 			>
 				<slot />
 			</div>
-
+			<PostTags tags={post.data.tags} class="mt-8" />
 		</article>
 	</div>
 	{!!relatedPostGroups.length && (
-		<section aria-label="Related Posts" class="mt-12 w-full" data-pagefind-ignore>
-			<hr class="mb-8 border-solid" />
+		<section aria-label="Related Posts" class="mt-8 w-full" data-pagefind-ignore>
 			<h2 class="heading-hashes font-semibold text-accent-2">Related Posts</h2>
 			<div class="mt-4 space-y-8">
 				{relatedPostGroups.map(({ tag, posts }) => (

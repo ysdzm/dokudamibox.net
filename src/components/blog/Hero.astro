@@ -2,7 +2,6 @@
 import type { CollectionEntry } from "astro:content";
 
 import FormattedDate from "../FormattedDate.astro";
-import PostTags from "./PostTags.astro";
 
 interface Props {
 	content: CollectionEntry<"post">;
@@ -31,4 +30,3 @@ const {
 		)
 	}
 </div>
-<PostTags tags={data.tags} />

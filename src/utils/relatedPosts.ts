@@ -9,7 +9,7 @@ export interface RelatedPostGroup {
 export function getRelatedPostGroups(
 	post: CollectionEntry<"post">,
 	posts: CollectionEntry<"post">[],
-	limitPerTag = 3,
+	limitPerTag = 2,
 ): RelatedPostGroup[] {
 	const tags = [...new Set(post.data.tags)];
 	const candidates = posts
